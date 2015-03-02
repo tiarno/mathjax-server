@@ -1,5 +1,5 @@
 
-# svgserver
+# mathjax-server
 Nodejs server receives JSON post, returns MathJax-rendered version.
 
 This project is a server front-end for the MathJax-node library.

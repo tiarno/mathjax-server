@@ -8,7 +8,11 @@
     "url": "https://github.com/tiarno/mathjax-server.git"
   },
   "keywords": [
-    "latex", "math", "mathjax", "svg", "mathml"
+    "latex",
+    "math",
+    "mathjax",
+    "svg",
+    "mathml"
   ],
   "dependencies": {
     "MathJax-node": "https://github.com/mathjax/mathjax-node#master"
@@ -18,5 +22,8 @@
   "bugs": {
     "url": "https://github.com/tiarno/mathjax-server/issues"
   },
-  "homepage": "https://github.com/tiarno/mathjax-server"
+  "homepage": "https://github.com/tiarno/mathjax-server",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
 }
