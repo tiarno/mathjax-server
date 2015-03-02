@@ -1,0 +1,22 @@
+{
+  "name": "mathjax-server",
+  "version": "1.0.0",
+  "description": "Server listens for POST with MathJax config. Returns rendered version.",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tiarno/mathjax-server.git"
+  },
+  "keywords": [
+    "latex", "math", "mathjax", "svg", "mathml"
+  ],
+  "dependencies": {
+    "MathJax-node": "https://github.com/mathjax/mathjax-node#master"
+  },
+  "author": "Tim Arnold <jtim.arnold@gmail.com> (http://reachtim.com)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/tiarno/mathjax-server/issues"
+  },
+  "homepage": "https://github.com/tiarno/mathjax-server"
+}
