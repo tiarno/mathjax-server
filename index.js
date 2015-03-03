@@ -3,7 +3,7 @@ var http = require('http');
 var numCPUs = require('os').cpus().length;
 
 var createServer = function(port) {
-    var mjAPI = require("../MathJax-node/lib/mj-single");
+    var mjAPI = require("MathJax-node/lib/mj-single");
     mjAPI.config({
         MathJax: {
             SVG: {
@@ -59,8 +59,7 @@ var createServer = function(port) {
     });
     return server;
 };
-
-exports.init = function(port){
+exports.start = function(port){
     if (cluster.isMaster) {
       // Fork workers.
       for (var i = 0; i < numCPUs; i++) {
@@ -73,5 +72,5 @@ exports.init = function(port){
     } else {
         var server = createServer(port);
     }
-}
+};
 
