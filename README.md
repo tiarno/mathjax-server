@@ -98,7 +98,4 @@ The JSON data to post to the server contains the following keys.
 - `linebreaks`: Specifies whether to allow lines to break.
 
 
-## TO-DO
-
-There's little error checking in the server code. It would be nice to add a domain to catch exceptions.
 

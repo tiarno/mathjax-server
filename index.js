@@ -2,7 +2,7 @@ var cluster = require('cluster');
 var http = require('http');
 var numCPUs = require('os').cpus().length;
 
-var createServer = function(port) {
+function startMathJax(){
     var mjAPI = require("MathJax-node/lib/mj-single");
     mjAPI.config({
         MathJax: {
@@ -32,26 +32,55 @@ var createServer = function(port) {
         }
     });
     mjAPI.start();
+    return mjAPI;
+}
 
+function handleRequest(mjAPI, request, response){
+    var str_params = '';
+    request.on('data', function(chunk){str_params += chunk;});
+    request.on('end', function(){
+        var params = JSON.parse(str_params);
+        mjAPI.typeset(params, function(result){
+            if (!result.errors) {
+                response.writeHead(200, {'Content-Type': 'image/svg+xml'});
+                if (params.svg) {response.end(result.svg);}
+                else{response.end(result.mml);}
+            } else {
+                response.writeHead(400, {'Content-Type': 'text/plain'});
+                response.write('Error 400: Request Failed. \n');
+                response.write(String(result.errors) + '\n');
+                response.write(str_params + '\n');
+                response.end();
+            }
+        });
+    });
+}
+
+var createServer = function(port) {
+    var domain = require('domain');
+    var mjAPI = startMathJax();
     var server = http.createServer(function (request, response) {
-        var str_params = '';
-        request.on('data', function(chunk){str_params += chunk;});
-        request.on('end', function(){
-            var params = JSON.parse(str_params);
-            mjAPI.typeset(params, function(result){
-                // console.log('typesetting with '  + params.math);
-                if (!result.errors) {
-                    response.writeHead(200, {'Content-Type': 'image/svg+xml'});
-                    if (params.svg) {response.end(result.svg);}
-                    else{response.end(result.mml);}
-                } else {
-                    response.writeHead(400, {'Content-Type': 'text/plain'});
-                    response.write('Error 400: Request Failed. \n');
-                    response.write(String(result.errors) + '\n');
-                    response.write(str_params + '\n');
-                    response.end();
-                }
-            });
+        var d = domain.create();
+        d.on('error', function(er) {
+            console.error('error', er.stack);
+            try {
+                var killtimer = setTimeout(function(){
+                    process.exit(1);
+                }, 30000);
+                killtimer.unref();
+                server.close();
+                cluster.worker.disconnect();
+                response.statusCode = 500;
+                response.setHeader('content-type', 'text/plain');
+                response.end('problem!\n');
+            } catch (er2) {
+                console.error('Error, sending 500.', er2.stack);
+            }
+        });
+        d.add(request);
+        d.add(response);
+        d.run(function(){
+            handleRequest(mjAPI, request, response);
         });
     });
     server.listen(port, function(){
@@ -59,6 +88,7 @@ var createServer = function(port) {
     });
     return server;
 };
+
 exports.start = function(port){
     if (cluster.isMaster) {
       // Fork workers.
@@ -66,11 +96,16 @@ exports.start = function(port){
         cluster.fork();
       }
 
+      cluster.on('disconnect', function(worker) {
+        console.error('disconnect!');
+        cluster.fork();
+      });
+
       cluster.on('exit', function(worker, code, signal) {
         console.log('worker ' + worker.process.pid + ' died');
       });
     } else {
-        var server = createServer(port);
+        createServer(port);
+
     }
 };
-
