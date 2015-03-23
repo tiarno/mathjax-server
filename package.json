@@ -1,6 +1,6 @@
 {
   "name": "mathjax-server",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Server listens for POST with MathJax config. Returns rendered version.",
   "main": "index.js",
   "repository": {
