@@ -42,9 +42,20 @@ function handleRequest(mjAPI, request, response){
         var params = JSON.parse(str_params);
         mjAPI.typeset(params, function(result){
             if (!result.errors) {
-                response.writeHead(200, {'Content-Type': 'image/svg+xml'});
-                if (params.svg) {response.end(result.svg);}
-                else{response.end(result.mml);}
+                if (params.svg) {
+                    response.writeHead(200, {'Content-Type': 'image/svg+xml'});
+                    response.end(result.svg);
+                }
+                else if (params.mml) {
+                    response.writeHead(200, {'Content-Type': 'application/mathml+xml'});
+                    response.end(result.mml);
+                }
+                else if (params.png) {
+                    response.writeHead(200, {'Content-Type': 'image/png'});
+                    // The reason for slice(22) to start encoding (from str to binary)
+                    // after base64 header info--data:image/png;base64,
+                    response.end(new Buffer(result.png.slice(22), 'base64'));
+                }
             } else {
                 response.writeHead(400, {'Content-Type': 'text/plain'});
                 response.write('Error 400: Request Failed. \n');
