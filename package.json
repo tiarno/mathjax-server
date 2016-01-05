@@ -22,5 +22,8 @@
   "homepage": "https://github.com/tiarno/mathjax-server",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "mathjax-node": "^0.4.0"
   }
 }
