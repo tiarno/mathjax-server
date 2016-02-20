@@ -13,7 +13,7 @@ function startMathJax(){
                 preview: ["[math]"],
                 processEscapes: true,
                 processClass: ['math'],
-                inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+//                inlineMath: [ ['$','$'], ["\\(","\\)"] ],
                 displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
                 skipTags: ["script","noscript","style","textarea","pre","code"]
             },
