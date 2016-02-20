@@ -14,7 +14,7 @@ function startMathJax(){
                 processEscapes: true,
                 processClass: ['math'],
 //                inlineMath: [ ['$','$'], ["\\(","\\)"] ],
-                displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+//                displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
                 skipTags: ["script","noscript","style","textarea","pre","code"]
             },
             TeX: {
