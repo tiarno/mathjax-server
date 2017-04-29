@@ -3,7 +3,7 @@ var http = require('http');
 var numCPUs = require('os').cpus().length;
 
 function startMathJax(){
-    var mjAPI = require("MathJax-node/lib/mj-single");
+    var mjAPI = require("mathjax-node-sre");
     mjAPI.config({
         MathJax: {
             SVG: {
