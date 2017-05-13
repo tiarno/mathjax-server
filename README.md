@@ -15,14 +15,14 @@ npm install mathjax-server
 
 ## Run Server Example
 
-To run the server on port 8003, put these two lines in a file, `testserver.js`, say, which lives in your `node_modules/mathjax-server` directory (along with `index.js`)
+To run the server on port 8003, put these two lines in a file, `test_server.js`, say, which lives in your `node_modules/mathjax-server` directory (along with `index.js`)
 
     var server = require('./index');
     server.start(8003);
 
 and run the command:
 
-    node testserver.js
+    node test_server.js
 
 ## Run Client Example
 
